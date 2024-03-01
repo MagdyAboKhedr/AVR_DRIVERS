@@ -44,8 +44,9 @@
 
 /*options for inititial value for all pins
 1- u8_OUTPUT_HIGH
-2- u8_INPUT_FLOATING
-3- u8_INPUT_PULLUP
+2- u8_OUTPUT_LOW
+3- u8_INPUT_FLOATING
+4- u8_INPUT_PULLUP
  */
  
  

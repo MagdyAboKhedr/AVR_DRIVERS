@@ -51,7 +51,20 @@
 #define PIND *((volatile uint8 *)0x30)
 
 
+/* Macros for Pins Direction */
+#define u8_init_OUTPUT                         1
+#define u8_init_INPUT                          0
 
+
+/* Macros for Pins Values */ 
+#define u8_OUTPUT_HIGH                            1
+#define u8_OUTPUT_LOW	                          0
+#define u8_INPUT_FLOATING                         0
+#define u8_INPUT_PULLUP                           1
+
+
+#define Conc(b7,b6,b5,b4,b3,b2,b1,b0)           Conc_Help(b7,b6,b5,b4,b3,b2,b1,b0)
+#define Conc_Help(b7,b6,b5,b4,b3,b2,b1,b0)      0b##b7##b6##b5##b4##b3##b2##b1##b0
 
 
 #endif
