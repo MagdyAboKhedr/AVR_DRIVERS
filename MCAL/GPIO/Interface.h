@@ -19,7 +19,7 @@ enum PORTS{PORTA_,PORTB_,PORTC_,PORTD_};
 #define HIGH 1
 #define LOW 0 
 
-
+void DIO_voidInit(void);
 
 enum ERROR_CHECK DIO_SETDIR_PORT(uint8 PORT, uint8 DIR);
 
