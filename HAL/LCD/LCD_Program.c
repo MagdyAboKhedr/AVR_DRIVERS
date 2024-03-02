@@ -20,7 +20,7 @@ void LCD_voidInit(void)
 	
 }
 
-void LCD_u8SendCMND(u8 u8_cmnd)
+void LCD_u8SendCMND(uint8 u8_cmnd)
 {
 	DIO_SETVAL_PIN(LCD_CONTROL_PORT, LCD_RS, LOW);
 	
@@ -37,7 +37,7 @@ void LCD_u8SendCMND(u8 u8_cmnd)
 	
 }
 
-void LCD_u8SendChar(u8 u8_ch)
+void LCD_u8SendChar(uint8 u8_ch)
 {
 	DIO_SETVAL_PIN(LCD_CONTROL_PORT, LCD_RS, HIGH);
 	
@@ -50,4 +50,53 @@ void LCD_u8SendChar(u8 u8_ch)
 	_delay_us(1);
 	
 	DIO_SETVAL_PIN(LCD_CONTROL_PORT, LCD_E, LOW);
+}
+
+
+void LCD_u8SendString(uint8 *u8_ch)
+{
+	uint8 i=0;
+	
+	while(u8_ch[i] != '\0')
+	{
+		LCD_u8SendChar(u8_ch[i]);
+
+		i++;
+
+		_delay_ms(2);
+	}
+	
+}
+
+void LCD_u8SendNUM(uint8 u8_num)
+{
+	uint8 count=0;
+	uint8 temp, count_;
+	uint8 div = 1;
+	temp = u8_num;
+	while(temp != 0)
+	{
+		temp/=10;
+		count++;
+	}
+	count_ = count;
+
+	while(count_ != 1)
+	{
+		div *= 10;
+		count_--;
+	}
+
+	while(count != 0)
+	{
+		LCD_u8SendChar((u8_num / div) + 48);
+		u8_num %= div;
+		div /= 10;
+
+		count--;
+
+	}
+}
+
+
 }
