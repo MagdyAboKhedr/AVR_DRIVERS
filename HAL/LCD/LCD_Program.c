@@ -98,5 +98,23 @@ void LCD_u8SendNUM(uint8 u8_num)
 	}
 }
 
-
+uint8 LCD_u8GoToXY(uint8 u8_X, uint8 u8_Y)
+{
+	uint8 error = OK_;
+	if(u8_X < 39)
+	{
+		switch(u8_Y)
+		{
+			case LCD_LINE_1:LCD_u8SendCMND(0x80 + u8_X);break;
+			case LCD_LINE_2:LCD_u8SendCMND(0xC0 + u8_X);break;
+			default : error = ERROR_DIO;
+		}
+	}
+	else
+	{	
+		error = ERROR_DIO;
+	}
+	
+	return error;
+	
 }
