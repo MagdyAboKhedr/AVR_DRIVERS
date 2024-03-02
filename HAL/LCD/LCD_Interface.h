@@ -18,5 +18,6 @@ void LCD_u8SendNUM(uint8 u8_num);
 
 uint8 LCD_u8GoToXY(uint8 u8_X, uint8 u8_Y);
 
+void LCD_SendSpecialChar(uint8 u8_numChar, uint8 *u8_SpecCh, uint8 u8_X, uint8 u8_Y);
 
 #endif

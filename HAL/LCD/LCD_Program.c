@@ -118,3 +118,20 @@ uint8 LCD_u8GoToXY(uint8 u8_X, uint8 u8_Y)
 	return error;
 	
 }
+
+
+
+void LCD_SendSpecialChar(uint8 u8_numChar, uint8 *u8_SpecCh, uint8 u8_X, uint8 u8_Y)
+{
+	uint8 CGRAMADD = u8_numChar * 8;
+	LCD_u8SendCMND(CGRAMADD + 64);
+	for(uint8 i=0; i<8; i++)
+	{
+		LCD_u8SendChar(u8_SpecCh[i]);
+	}
+
+	LCD_u8GoToXY(u8_X, u8_Y);
+
+	LCD_u8SendChar(u8_numChar);
+
+}
