@@ -1,6 +1,7 @@
 #include "BIT_MATH.h"
 #include "TYPES.h"
 
+#include <stdlib.h>
 
 
 #include "Interface.h"
@@ -236,26 +237,63 @@ enum ERROR_CHECK DIO_SETVAL_PIN(uint8 PORT,uint8 PIN, uint8 VAL)
 
 enum ERROR_CHECK DIO_GETVAL(uint8 PORT,uint8 PIN, uint8* VAL)
 {
+	uint8 Local_pinVal;
 	uint8 error = OK_;
+	if((PORT <= PORTD) && (PIN <= PIN7) && (VAL != NULL))
+	{
 	switch(PORT)
 	{
 		case PORTA_:
-		*VAL = GET_BIT(PORTA, PIN);
+		Local_pinVal = GET_BIT(PORTA, PIN);
+		if(Local_pinVal == 0)
+		{
+			*VAL = LOW;
+		}
+		else
+		{
+			*VAL = HIGH;
+		}
 		break;
 		
 		case PORTB_:
-		*VAL = GET_BIT(PORTB, PIN);
+		Local_pinVal = GET_BIT(PORTB, PIN);
+		if(Local_pinVal == 0)
+		{
+			*VAL = LOW;
+		}
+		else
+		{
+			*VAL = HIGH;
+		}
 		break;
 		
 		case PORTC_:
-		*VAL = GET_BIT(PORTC, PIN);
+		Local_pinVal = GET_BIT(PORTC, PIN);
+		if(Local_pinVal == 0)
+		{
+			*VAL = LOW;
+		}
+		else
+		{
+			*VAL = HIGH;
+		}
 		break;
 		
 		case PORTD_:
-		*VAL = GET_BIT(PORTD, PIN);
+		Local_pinVal = GET_BIT(PORTD, PIN);
+		if(Local_pinVal == 0)
+		{
+			*VAL = LOW;
+		}
+		else
+		{
+			*VAL = HIGH;
+		}
 		break;
-		
-		default:
+	}
+	}
+	else
+	{
 		error = ERROR_DIO;
 	}
 	return error;

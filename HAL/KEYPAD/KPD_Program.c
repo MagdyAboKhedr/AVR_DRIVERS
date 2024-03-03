@@ -10,6 +10,7 @@
 #include "KPD_Interface.h"
 #include "KPD_Private.h"
 #include "KPD_Config.h"
+#include <stdlib.h>
 
 const uint8 Local_u8KEYPAD[4][4] = KPD_KEYS;
 
@@ -23,6 +24,7 @@ uint8 KPD_u8GetKey(uint8 *Returned_KEY)
 		uint8 Local_RowsCount, Local_ColCount, Local_PinVal, Local_Flag = 0;
 		if(Returned_KEY != NULL)
 		{
+			*Returned_KEY = KPD_u8_NOTPRESSED;
 			for(Local_RowsCount=0; Local_RowsCount <= 3; Local_RowsCount++)
 			{
 				DIO_SETVAL_PIN(KPD_u8_PORT, KPD_ROWSPINS[Local_RowsCount], LOW);
@@ -31,7 +33,7 @@ uint8 KPD_u8GetKey(uint8 *Returned_KEY)
 					DIO_GETVAL(KPD_u8_PORT, KPD_COLSPINS[Local_ColCount], &Local_PinVal);
 					if(Local_PinVal == LOW)
 					{
-						_delay_ms(20);
+						_delay_ms(25);
 						DIO_GETVAL(KPD_u8_PORT, KPD_COLSPINS[Local_ColCount], &Local_PinVal);
 						while(Local_PinVal == LOW)
 						{
@@ -43,7 +45,7 @@ uint8 KPD_u8GetKey(uint8 *Returned_KEY)
 					}
 				}
 				DIO_SETVAL_PIN(KPD_u8_PORT, KPD_ROWSPINS[Local_RowsCount], HIGH);
-				if(Local_Flag = 1)
+				if(Local_Flag == 1)
 				{
 					break;
 				}

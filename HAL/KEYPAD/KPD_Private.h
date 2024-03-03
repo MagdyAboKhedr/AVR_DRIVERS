@@ -1,5 +1,5 @@
-#infdef KPD_Interface_
-#define KPD_Interface_
+#ifndef KPD_PRIVATE_
+#define KPD_PRIVATE_
 
 
 #endif

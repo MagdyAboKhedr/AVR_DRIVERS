@@ -1,5 +1,5 @@
-#infdef KPD_Interface_
-#define KPD_Interface_
+#ifndef KPD_INTERFACE_
+#define KPD_INTERFACE_
 
 
 #define KPD_u8_NOTPRESSED 0xff
