@@ -244,7 +244,7 @@ enum ERROR_CHECK DIO_GETVAL(uint8 PORT,uint8 PIN, uint8* VAL)
 	switch(PORT)
 	{
 		case PORTA_:
-		Local_pinVal = GET_BIT(PORTA, PIN);
+		Local_pinVal = GET_BIT(PINA, PIN);
 		if(Local_pinVal == 0)
 		{
 			*VAL = LOW;
@@ -256,7 +256,7 @@ enum ERROR_CHECK DIO_GETVAL(uint8 PORT,uint8 PIN, uint8* VAL)
 		break;
 		
 		case PORTB_:
-		Local_pinVal = GET_BIT(PORTB, PIN);
+		Local_pinVal = GET_BIT(PINB, PIN);
 		if(Local_pinVal == 0)
 		{
 			*VAL = LOW;
@@ -268,7 +268,7 @@ enum ERROR_CHECK DIO_GETVAL(uint8 PORT,uint8 PIN, uint8* VAL)
 		break;
 		
 		case PORTC_:
-		Local_pinVal = GET_BIT(PORTC, PIN);
+		Local_pinVal = GET_BIT(PINC, PIN);
 		if(Local_pinVal == 0)
 		{
 			*VAL = LOW;
@@ -280,7 +280,7 @@ enum ERROR_CHECK DIO_GETVAL(uint8 PORT,uint8 PIN, uint8* VAL)
 		break;
 		
 		case PORTD_:
-		Local_pinVal = GET_BIT(PORTD, PIN);
+		Local_pinVal = GET_BIT(PIND, PIN);
 		if(Local_pinVal == 0)
 		{
 			*VAL = LOW;
