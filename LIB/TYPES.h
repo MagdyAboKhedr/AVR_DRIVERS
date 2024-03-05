@@ -7,4 +7,6 @@ typedef unsigned short uint16;
 
 enum ERROR_CHECK{OK_, ERROR_DIO};
 
+#define NULL ((void*)0)
+
 #endif
