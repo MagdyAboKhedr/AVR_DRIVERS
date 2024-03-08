@@ -6,6 +6,9 @@
 #include "ADC_Config.h"
 
 
+static void(* ADC_pfNotif)(uint16) = NULL; 
+
+static uint8 ADCBusy_flag = 0;
 
 void ADC_Init(void)
 {
@@ -74,9 +77,65 @@ uint8 ADC_ReturnDigitalVal_Synch(uint8 ADC_CH, uint16 *Returned_Val)
 	{
 			ERROR = ERROR_DIO;
 	}
+	return ERROR;
+}
+
+uint8 ADC_ReturnDigitalVal_Asynch(uint8 ADC_CH, void(* Local_pfNotif)(uint16))
+{
+	uint8 ERROR = OK_;
+	if((ADC_CH < 32) && (Local_pfNotif!=NULL) && (ADCBusy_flag == 0))
+	{
+		ADCBusy_flag = 1;
+		
+		ADC_pfNotif = Local_pfNotif;
+		
+		SET_BIT(ADC_ADCSRA, 3);
+		
+		ADC_ADMUX &= 0b11100000;
+		
+		ADC_ADMUX |= ADC_CH;
+		
+		SET_BIT(ADC_ADCSRA, 6);
+	}
+	else
+	{
+		ERROR = ERROR_DIO;
+	}
 	
 	
 	
 	
 	return ERROR;
+}
+
+uint8 ADC_GetADCRegVAL (uint16 *Local_ADCVal)
+{
+	uint8 ERROR = OK_;
+	if(Local_ADCVal != NULL)
+	{
+		*Local_ADCVal = ADC_u16ADC_REG;
+	}
+	else
+	{
+		ERROR = ERROR_DIO;
+	}
+	
+	return ERROR;
+
+}
+
+
+
+void __vector_16(void) __attribute__((signal));
+void __vector_16(void)
+{
+	if(ADC_pfNotif != NULL)
+	{
+		ADCBusy_flag = 0;
+		
+		CLR_BIT(ADC_ADCSRA, 3);
+		
+		ADC_pfNotif(ADC_u16ADC_REG);
+	}
+	
 }

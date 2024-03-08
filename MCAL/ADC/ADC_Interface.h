@@ -18,4 +18,8 @@ void ADC_Init(void);
 
 uint8 ADC_ReturnDigitalVal_Synch(uint8 ADC_CH, uint16 *Returned_Val);
 
+uint8 ADC_ReturnDigitalVal_Asynch(uint8 ADC_CH, void(* Local_pfNotif)(uint16));
+
+uint8 ADC_GetADCRegVAL (uint16 *Local_ADCVal);
+
 #endif
