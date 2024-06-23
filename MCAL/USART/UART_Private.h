@@ -1,6 +1,28 @@
 #ifndef UART_PRIVATE
 #define UART_PRIVATE
 
+//UART MODES
+#define UART_NORMAL_MODE              0
+#define UART_DBL_SPD_MODE             1
+
+
+#define UART_ENABLE                   1
+#define UART_DISABLE 				  0
+
+//UART PARIT
+#define UART_NO_PARITY                0
+#define UART_EVEN_PARITY              1
+#define UART_ODD_PARITY               2
+
+//UART DATA Size
+#define UART_ONE_BIT                  0
+#define UART_TWO_BITS                 1
+#define UART_FIVE_BITS                2
+#define UART_SIX_BITS                 3
+#define UART_SEVEN_BITS               4
+#define UART_EIGHT_BITS               5
+#define UART_NINE_BITS                6
+
 
 
 #define UART_UDR_REG 			*((volatile uint8 *)0x2C) //Data register
