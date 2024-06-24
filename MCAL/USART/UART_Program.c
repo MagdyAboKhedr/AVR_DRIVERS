@@ -6,6 +6,19 @@
 #include "UART_Interface.h"
 
 
+/*Static pointer to the passed string needed to be sent using the Asynchronous transmitting function*/
+static uint8 *UART_pu8TransmittedString;
+
+/*Static pointer to the passed array needed to be filled using the Asynchronous receiving function*/
+static uint8 *UART_pu8ReceivedString;
+
+/*Static variable that will be equal the required length of the received msg*/
+static uint8 UART_u8ReceivedMsgSize;
+
+/* Incremented index using in asynchronous transmitting and receiving */
+static uint8 UART_u8Index;
+
+static void (*PtrASychCallback) (void) = NULL;
 
 
 
@@ -154,4 +167,184 @@ uint8 UART_SendChar(uint8 u8_data)
 	return Local_Error;
 }
 
-uint8 UART_RecieveChar(uint8 *u8_data);
+uint8 UART_SendStringAsynch(uint8 *u8_data, void(*NotifFunc)(void))
+{
+	uint8 Local_Error = OK_;
+	
+	if(u8_data != NULL && NotifFunc != NULL)
+	{
+		UART_u8Index = 0;
+		
+		SET_BIT(UART_UCSRB_REG, UART_UCSRB_TXCIE); 
+		
+		UART_pu8TransmittedString = u8_data;
+		
+		PtrASychCallback = NotifFunc;
+	}
+	else
+	{
+		Local_Error = ERROR_DIO;
+	}
+	
+	return Local_Error;
+	
+}
+
+uint8 UART_SendStringSynch(uint8 *u8_data)
+{
+	
+	uint8 Local_Error = OK_;
+	uint16 Local_TOCounter = 0;
+	
+	if(u8_data != NULL)
+	{
+		while(*u8_data != '\0)
+		{
+			Local_TOCounter = 0;
+			UART_UDR_REG = *u8_data;
+			
+			while(GET_BIT(UART_UCSRA_REG, UART_UCSRA_TXC) && Local_TOCounter < UART_u16_FAULT_TIMEOUT)
+			{
+				Local_TOCounter++;
+			}
+			
+			if(Local_TOCounter != UART_u16_FAULT_TIMEOUT)
+			{
+				u8_data++;
+			}
+			else
+			{
+				Local_Error = ERROR_DIO;
+				break;
+			}
+		}
+
+	}
+	else
+	{
+		Local_Error = ERROR_DIO;
+	}
+	return Local_Error;
+}
+
+uint8 UART_RecieveChar(uint8 *u8_data)
+{
+	uint8 Local_Error = OK_;
+	uint16 Local_TOCounter = 0;
+	if(u8_data != NULL)
+	{
+		if(GET_BIT(UART_UCSRA_REG, UART_UCSRA_RXC) == 0 && Local_TOCounter < UART_u16_FAULT_TIMEOUT)
+		{
+			Local_TOCounter++;
+		}
+		if(Local_TOCounter == UART_u16_FAULT_TIMEOUT)
+		{
+			Local_Error = ERROR_DIO;
+		}
+		else
+		{
+			*u8_data = UART_UDR_REG;
+		}
+	}
+	else
+	{
+		Local_Error = ERROR_DIO;
+	}
+	
+	return Local_Error;
+}
+
+uint8 UART_RecieveStringAsynch(uint8 *u8_data, uint8 Copy_MsgLength, void(*NotifFunc)(void))
+{
+	uint8 Local_Error = OK_;
+	
+	if(u8_data != NULL && NotifFunc != NULL)
+	{
+		UART_u8Index = 0;
+		UART_pu8ReceivedString = u8_data;
+		UART_u8ReceivedMsgSize = Copy_MsgLength;
+		
+		PtrASychCallback = NotifFunc;
+		
+		
+		SET_BIT(UART_UCSRB_REG, UART_UCSRB_RXCIE);
+	}
+	else
+	{
+		Local_Error = ERROR_DIO;
+	}
+	
+	return Local_Error;
+}
+		   
+uint8 UART_RecieveStringSynch(uint8 *u8_data, uint8 Copy_MsgLength)
+{
+	uint8 Local_Error = OK_;
+	uint8 Local_index = 0;
+	uint16 Local_TOCounter = 0;
+	
+	if(u8_data != NULL)
+	{
+		for(Local_index=0; Local_index<Copy_MsgLength; Local_index++)
+		{
+			while(GET_BIT(UART_UCSRA_REG, UART_UCSRA_RXC) && Local_TOCounter < UART_u16_FAULT_TIMEOUT)
+			{
+				Local_TOCounter++;
+			}
+			if(Local_TOCounter != UART_u16_FAULT_TIMEOUT)
+			{
+				u8_data[Local_index] = UART_UDR_REG;
+			}
+			else
+			{
+				Local_Error = ERROR_DIO;
+				break;
+			}
+		}
+	}
+	else
+	{
+		Local_Error = ERROR_DIO;
+	}
+	
+	return Local_Error;
+}
+
+
+
+
+
+
+
+void __vector_15(void) __attribute__((signal));
+void __vector_15(void)
+{
+	if(UART_pu8TransmittedString[UART_u8Index] != '\0')
+	{
+		UART_UDR_REG = UART_pu8TransmittedString[UART_u8Index];
+	}
+	else
+	{
+		UART_u8Index = 0;
+		PtrASychCallback();
+		CLR_BIT(UART_UCSRB_REG, UART_UCSRB_TXCIE);
+	}
+	
+	UART_u8Index++;
+}
+
+void __vector_13(void) __attribute__((signal));
+void __vector_13(void)
+{
+	
+	UART_pu8ReceivedString[UART_u8Index] = UART_UDR_REG;
+	
+	UART_u8Index++;
+			
+	if(UART_u8Index == UART_u8ReceivedMsgSize)
+	{
+		UART_u8Index = 0;
+		PtrASychCallback();
+		CLR_BIT(UART_UCSRB_REG, UART_UCSRB_RXCIE);
+	}
+}
