@@ -20,24 +20,24 @@ static uint8 UART_u8Index;
 
 static void (*PtrASychCallback) (void) = NULL;
 
-
+uint16 Local_u16BuadRateCalc;
+uint8 Local_UCSRC_Var = 0b10000000;
 
 void UART_voidInit(void)
 {
-	uint16 Local_u16BuadRateCalc;
-	uint8 Local_UCSRC_Var = 0b10000000;
+	
 	
 	#if(UART_u8_MODE == UART_u8_NORMAL_MODE)
 		Local_u16BuadRateCalc = ((FCPU/(UART_u32_BAUDRATE*16))-1);
 		UART_UBRRL_REG = (uint8)Local_u16BuadRateCalc;
 		UART_UBRRH_REG = ((Local_u16BuadRateCalc) >> 8);
 		
-		if(UART_u8_TX_STATE == UART_u8_ENABLE)
+		if(UART_u8_TX_STATE == UART_ENABLE)
 		{
 			SET_BIT(UART_UCSRB_REG, UART_UCSRB_TXEN);
 		}
 		
-		if(UART_u8_RX_STATE == UART_u8_ENABLE)
+		if(UART_u8_RX_STATE == UART_ENABLE)
 		{
 			SET_BIT(UART_UCSRB_REG, UART_UCSRB_RXEN);
 		}
@@ -58,9 +58,9 @@ void UART_voidInit(void)
 			SET_BIT(Local_UCSRC_Var, UART_UCSRC_USBS);
 		}
 		
-		switch(UART_u8_DATA_SIZE):
+		switch(UART_u8_DATA_SIZE)
 		{
-			case UART_u8_SIX_BITS:
+			case UART_SIX_BITS:
 			{
 				SET_BIT(Local_UCSRC_Var, UART_UCSRC_UCSZ0);
 				break;
@@ -87,18 +87,18 @@ void UART_voidInit(void)
 			}
 		}
 		UART_UCSRC_REG = Local_UCSRC_Var;
-	#if(UART_u8_MODE == UART_DBL_SPD_MODE)
+	#elif(UART_u8_MODE == UART_DBL_SPD_MODE)
 		SET_BIT(UART_UCSRA_REG, UART_UCSRA_U2X);
-		Local_u16BaudRateCalc = ((FCPU/(UART_u32_BAUDRATE*8))-1);
+		UART_u32_BAUDRATE = ((FCPU/(UART_u32_BAUDRATE*8))-1);
 		UART_UBRRL_REG = (uint8)Local_u16BuadRateCalc;
 		UART_UBRRH_REG = ((Local_u16BuadRateCalc) >> 8);
 		
-		if(UART_u8_TX_STATE == UART_u8_ENABLE)
+		if(UART_u8_TX_STATE == UART_ENABLE)
 		{
 			SET_BIT(UART_UCSRB_REG, UART_UCSRB_TXEN);
 		}
 		
-		if(UART_u8_RX_STATE == UART_u8_ENABLE)
+		if(UART_u8_RX_STATE == UART_ENABLE)
 		{
 			SET_BIT(UART_UCSRB_REG, UART_UCSRB_RXEN);
 		}
@@ -120,7 +120,7 @@ void UART_voidInit(void)
 		
 		switch(UART_u8_DATA_SIZE):
 		{
-			case UART_u8_SIX_BITS:
+			case UART_SIX_BITS:
 			{
 				SET_BIT(Local_UCSRC_Var, UART_UCSRC_UCSZ0);
 				break;
@@ -147,6 +147,8 @@ void UART_voidInit(void)
 			}
 		}
 		UART_UCSRC_REG = Local_UCSRC_Var;
+		
+		#endif
 }
 
 uint8 UART_SendChar(uint8 u8_data)
@@ -198,7 +200,7 @@ uint8 UART_SendStringSynch(uint8 *u8_data)
 	
 	if(u8_data != NULL)
 	{
-		while(*u8_data != '\0)
+		while(*u8_data != '\0')
 		{
 			Local_TOCounter = 0;
 			UART_UDR_REG = *u8_data;

@@ -34,7 +34,7 @@
 #define PC7_INTIAL_DIRECTION                              u8_init_INPUT
 
 #define PD0_INTIAL_DIRECTION                              u8_init_INPUT
-#define PD1_INTIAL_DIRECTION                              u8_init_INPUT
+#define PD1_INTIAL_DIRECTION                              u8_init_OUTPUT
 #define PD2_INTIAL_DIRECTION                              u8_init_INPUT
 #define PD3_INTIAL_DIRECTION                              u8_init_INPUT
 #define PD4_INTIAL_DIRECTION                              u8_init_INPUT
