@@ -28,7 +28,7 @@ void UART_voidInit(void)
 	
 	
 	#if(UART_u8_MODE == UART_u8_NORMAL_MODE)
-		Local_u16BuadRateCalc = ((FCPU/(UART_u32_BAUDRATE*16))-1);
+		Local_u16BuadRateCalc = ((FCPU/(UART_u32_BAUDRATE*16UL))-1);
 		UART_UBRRL_REG = (uint8)Local_u16BuadRateCalc;
 		UART_UBRRH_REG = ((Local_u16BuadRateCalc) >> 8);
 		

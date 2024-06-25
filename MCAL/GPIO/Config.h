@@ -6,7 +6,7 @@
 2- u8_init_INPUT
  */
  
-#define PA0_INTIAL_DIRECTION                              u8_init_INPUT
+#define PA0_INTIAL_DIRECTION                              u8_init_OUTPUT
 #define PA1_INTIAL_DIRECTION                              u8_init_INPUT
 #define PA2_INTIAL_DIRECTION                              u8_init_INPUT
 #define PA3_INTIAL_DIRECTION                              u8_init_INPUT
@@ -15,7 +15,7 @@
 #define PA6_INTIAL_DIRECTION                              u8_init_INPUT
 #define PA7_INTIAL_DIRECTION                              u8_init_INPUT
 
-#define PB0_INTIAL_DIRECTION                              u8_init_INPUT
+#define PB0_INTIAL_DIRECTION                              u8_init_OUTPUT
 #define PB1_INTIAL_DIRECTION                              u8_init_INPUT
 #define PB2_INTIAL_DIRECTION                              u8_init_INPUT
 #define PB3_INTIAL_DIRECTION                              u8_init_INPUT
@@ -50,7 +50,7 @@
  */
  
  
-#define PA0_INTIAL_VALUE                                  u8_INPUT_FLOATING
+#define PA0_INTIAL_VALUE                                  u8_OUTPUT_LOW
 #define PA1_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PA2_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PA3_INTIAL_VALUE                                  u8_INPUT_FLOATING
@@ -59,7 +59,7 @@
 #define PA6_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PA7_INTIAL_VALUE                                  u8_INPUT_FLOATING
 
-#define PB0_INTIAL_VALUE                                  u8_INPUT_FLOATING
+#define PB0_INTIAL_VALUE                                  u8_OUTPUT_LOW
 #define PB1_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PB2_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PB3_INTIAL_VALUE                                  u8_INPUT_FLOATING
@@ -78,7 +78,7 @@
 #define PC7_INTIAL_VALUE                                  u8_INPUT_FLOATING
 
 #define PD0_INTIAL_VALUE                                  u8_INPUT_FLOATING
-#define PD1_INTIAL_VALUE                                  u8_INPUT_FLOATING
+#define PD1_INTIAL_VALUE                                  u8_OUTPUT_LOW
 #define PD2_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PD3_INTIAL_VALUE                                  u8_INPUT_FLOATING
 #define PD4_INTIAL_VALUE                                  u8_INPUT_FLOATING

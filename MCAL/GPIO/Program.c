@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 
-#include "Interface.h"
+
 #include "Private.h"
 #include "Config.h"
-
+#include "Interface.h"
 
 void DIO_voidInit(void)
 {
