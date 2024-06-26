@@ -12,7 +12,7 @@
 
 #define SPI_CLKPHASE         SPI_SAMPLE
 
-#define  SPI_CLKRATE         SPI_OVER_16
+#define  SPI_CLKRATE         SPI_OVER_64
 
 #if (SPI_CLKRATE == SPI_OVER_4)
 #define SPI_SPRBITS            0

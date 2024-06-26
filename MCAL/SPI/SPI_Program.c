@@ -25,7 +25,7 @@ static void (*PtrASychCallback) (void) = NULL;
 
 
 
-uint8 SPI_voidInit(void)
+void SPI_voidInit(void)
 {
 	#if SPI_SELECTROLE == SPI_MASTER
 		SET_BIT(SPI_SPCR_REG, SPI_SPCR_MSTR);
@@ -61,8 +61,9 @@ uint8 SPI_uint8SynchSendReceieve(uint8 Local_uint8Data, uint8 *Local_uint8Reciev
 	if (Local_uint8RecieveData != NULL)
 	{
 		SPI_SPDR_REG = Local_uint8Data;
-		while (GET_BIT(SPI_SPSR_REG,SPI_SPSR_SPIF) == 0 && Local_u16Timeout < SPI_FAULT_TIMEOUT)
+		while ((GET_BIT(SPI_SPSR_REG,SPI_SPSR_SPIF)) == 0 && Local_u16Timeout < SPI_FAULT_TIMEOUT)
 		{
+			
 			Local_u16Timeout++;
 		}
 		if (Local_u16Timeout == SPI_FAULT_TIMEOUT)
@@ -115,7 +116,7 @@ void __vector_12(void)
 	{
 		SPI_u8Index = 0;
 		SPI_u8NoOfBytes = 0;
-		CLEAR_BIT(SPI_SPCR_REG,SPI_SPCR_SPIE);
+		CLR_BIT(SPI_SPCR_REG,SPI_SPCR_SPIE);
 		PtrASychCallback();
 	}
 	else

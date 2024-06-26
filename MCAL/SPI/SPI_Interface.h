@@ -2,7 +2,7 @@
 #define SPI_INTERFACE
 
 
-uint8 SPI_voidInit(void);
+void SPI_voidInit(void);
 
 
 uint8 SPI_uint8SynchSendReceieve(uint8 Local_uint8Data, uint8 *Local_uint8RecieveData);
