@@ -41,7 +41,7 @@
 
 
 
-#define SPI_SPCR_REG 			*((volatile uint8 *)0x20) //SPI Control Register
+#define SPI_SPCR_REG 			*((volatile uint8 *)0x2D) //SPI Control Register
 #define SPI_SPCR_SPR0					0
 #define SPI_SPCR_SPR1					1
 #define SPI_SPCR_CPHA					2
